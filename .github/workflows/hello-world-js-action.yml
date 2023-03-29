@@ -1,3 +1,4 @@
+# Nice example
 on: [push]
 
 jobs:
