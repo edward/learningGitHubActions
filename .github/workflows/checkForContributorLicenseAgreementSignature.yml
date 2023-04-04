@@ -4,11 +4,10 @@ name: Check for Contributor License Agreement signature
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    types:
+      - opened
+#    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch: 
@@ -22,6 +21,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # How do I get the GitHub login?
+      - name: Debugging
+        run: |
+          echo "Pull request created by ${{ github.event.pull_request.user.login }}"
       # Checks if the author has signed the feenk CLA
       - name: Make HTTP request
         run: |
