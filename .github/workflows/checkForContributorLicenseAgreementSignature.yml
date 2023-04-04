@@ -28,7 +28,7 @@ jobs:
       # Checks if the author has signed the feenk CLA
       - name: Make HTTP request
         run: |
-          curl curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database--development.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" | grep --quiet 200
+          curl curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" | grep --quiet 200
 #      - name: Check JSON response
 #        run: |
 #          echo "${{ steps.http.outputs }}" # output the JSON response
