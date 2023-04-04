@@ -15,16 +15,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
+  # TODO rename this
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # How do I get the GitHub login?
-      - name: Debugging
-        run: |
-          echo "Pull request created by ${{ github.event.pull_request.user.login }}"
       # Checks if the author has signed the feenk CLA
       - name: Make HTTP request
         run: |
