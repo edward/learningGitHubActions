@@ -1,5 +1,5 @@
 # Nice example
-on: [push]
+on: [label]
 
 jobs:
   hello_world_job:
