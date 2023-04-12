@@ -14,8 +14,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  # TODO rename this
+  # This is the job name:
   check-contributor-license-agreement:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -26,6 +25,7 @@ jobs:
       - name: Make HTTP request
         run: |
           curl curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" | grep --quiet 200
+
 #      - name: Check JSON response
 #        run: |
 #          echo "${{ steps.http.outputs }}" # output the JSON response
