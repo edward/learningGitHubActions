@@ -24,7 +24,7 @@ jobs:
     steps:
       - id: step1
         run: |
-          curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" >> "$GITHUB_OUTPUT"
+          curl -s -o /dev/null --write-out "test=%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" >> "$GITHUB_OUTPUT"
       - id: step2
         run: echo "test=world" >> "$GITHUB_OUTPUT"
     
