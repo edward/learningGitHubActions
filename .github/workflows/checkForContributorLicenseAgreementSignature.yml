@@ -23,7 +23,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - id: step1
-        run: echo "test=hello" >> "$GITHUB_OUTPUT"
+        run: |
+          curl -s -o /dev/null --write-out "%{http_code}\n" \
+          "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" >> "$GITHUB_OUTPUT"
       - id: step2
         run: echo "test=world" >> "$GITHUB_OUTPUT"
     
