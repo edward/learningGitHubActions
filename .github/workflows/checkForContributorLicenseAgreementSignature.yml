@@ -20,9 +20,10 @@ jobs:
   
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    
+    # Variables in a hash map (aka Dictionary or Object) to initialize
     outputs:
-      output1: ${{ steps.request-cla-status-for-github-login.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
+      output1: ${{ steps.request-cla-status-for-github-login.outputs.request-http-response }}
 
 # We can also save scripts in .github/scripts/whatever.rb
 
@@ -34,7 +35,7 @@ jobs:
           curl -s -o /dev/null --write-out "request-http-response=%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" >> "$GITHUB_OUTPUT"
       - id: check-request-status
         run: |
-          ruby -e "exit 1 if Integer(${{ steps.request-cla-status-for-github-login.outputs.test }}) == 404"
+          ruby -e "exit 1 if Integer(${{ steps.request-cla-status-for-github-login.outputs.request-http-response }}) == 404"
       - id: add-comment-to-pull-request
         if: ${{ failure() && steps.check-request-status.conclusion == 'failure' }}
         run: |
