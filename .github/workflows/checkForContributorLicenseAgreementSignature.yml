@@ -23,11 +23,19 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - id: step1
+        name: Make HTTP request to check if the pull request author has signed the feenk CLA
         run: |
           curl -s -o /dev/null --write-out "test=%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }}" >> "$GITHUB_OUTPUT"
-      - id: step2
+      - id: check-request-status
         run: |
-          echo "test=world ${{ steps.step1.outputs.test }}" >> "$GITHUB_OUTPUT"
+          ruby -e "exit 1 if Integer(${{ steps.step1.outputs.test }}) == 404"
+      - id: add-comment-to-pull-request
+        if: ${{ failure() && steps.check-request-status.conclusion == 'failure' }}
+        run: |
+          echo "Please sign the CLA"
+          
+          
+#          echo "test=world ${{ steps.step1.outputs.test }}" >> "$GITHUB_OUTPUT"
     
     
 #       # Checks if the author has signed the feenk CLA
