@@ -31,4 +31,7 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
     - name: Run a script
-      run: ruby .github/scripts/example.rb
+      run: |
+        pwd &&
+        ls &&
+        ruby ./.github/scripts/example.rb
