@@ -32,4 +32,4 @@ jobs:
       run: echo "Hello ${{ inputs.name }}"
     - name: Run a script
       run: |
-        ls -la
+        cd $GITHUB_WORKSPACE; ls -la
