@@ -19,14 +19,14 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Scripts saved in .github/scripts/whatever.rb are available to the runner
+    # Scripts saved in .github/scripts/whatever.rb are available to the runner after checking out the codebase
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - id: request-cla-status-for-github-login
         name: Make HTTP request to check if the pull request author has signed the feenk CLA
         run: |
-          curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database.g
+          curl -s -o /dev/null --write-out "%{http_code}\n" "https://contributor-license-agreement-database.gadget.app/signatureExistsFor?gitHubUsername=${{ github.event.pull_request.user.login }} | grep --quiet 200 "
       - id: add-comment-to-pull-request
         if: ${{ failure() }}
         run: |
@@ -35,6 +35,10 @@ jobs:
           curl --location \
             --request POST \
             --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --data '{"body":"Hello ${{ github.event.pull_request.sender.login }} and thanks for contributing! To accept your help and merge your pull request, please take a look at and sign our Contributor License Agreement by visiting https://gtoolkit.com/contributor-license-agreement?gitHubUsername=${{ github.event.pull_request.sender.login }}" }' \
+            ${{ github.event.pull_request.comments_url }}
             --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
             --header "X-GitHub-Api-Version: 2022-11-28" \
             --data '{"body":"Hello ${{ github.event.pull_request.sender.login }} and thanks for contributing! To accept your help and merge your pull request, please take a look at and sign our Contributor License Agreement by visiting https://gtoolkit.com/contributor-license-agreement/"}' \
